@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart AI Image Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+</head>
+<body>
+  <header>
+    <h1>🌟 Smart AI Image Gallery</h1>
+    <p>Experience an intelligent and stylish way to explore images</p>
+  </header>
+
+  <section class="gallery" id="gallery">
+    <div class="image-card nature">
+      <img src="https://rukminim3.flixcart.com/image/850/1000/kqttg280/poster/o/m/b/medium-nature-wallpaper-beautiful-nature-poster-asstore-n11-original-imag4rf9mfzpyyne.jpeg?q=90&crop=false" alt="AI-generated Nature" onclick="openLightbox(this.src)" />
+    </div>
+    <div class="image-card tech">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQPbPDOcnvmK_4XaAcj8kDecv9jcLvia6L4EqqlZQHJOdy_ssFRqMQhzpkBVETYmz_v8o&usqp=CAU" alt="AI-generated Technology" onclick="openLightbox(this.src)" />
+    </div>
+    <div class="image-card art">
+      <img src="https://cdn.britannica.com/87/2087-050-8B2A01CD/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg" alt="AI-generated Art" onclick="openLightbox(this.src)" />
+     
+     
+    </div>
+  </section>
+
+  <div id="lightbox" onclick="closeLightbox()">
+    <span class="close">&times;</span>
+    <img id="lightbox-img" src="" alt="Large View" />
+    <div class="nav">
+      <button onclick="prevImage(event)">&#10094;</button>
+      <button onclick="nextImage(event)">&#10095;</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>🧠 Powered by AI-enhanced design. Created with 💖</p>
+  </footer>
+
+  <!-- Install PWA Button -->
+  <button id="installBtn" class="install-button" style="display:none">📲 Install Gallery App</button>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker Registered'))
+        .catch(err => console.error('Service Worker Error:', err));
+    }
+
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+
+    installBtn.addEventListener('click', () => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(choiceResult => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('PWA setup accepted');
+        } else {
+          console.log('PWA setup declined');
+        }
+        deferredPrompt = null;
+      });
+    });
+  </script>
+</body>
+</html>
